@@ -1,0 +1,14 @@
+{
+  "name": "@app/shared",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "@app/config": "workspace:*",
+    "@app/db": "workspace:*",
+    "better-auth": "^1.6.9",
+    "hono": "catalog:",
+    "@hono/node-server": "catalog:",
+    "resend": "^6.12.2",
+    "stripe": "^18.3.0"
+  }
+}

@@ -1,8 +1,6 @@
 /* LIBRARIES */
-import { Request } from "express";
 import { betterAuth } from "better-auth";
-import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { admin } from "better-auth/plugins"
 import { 
   db, 
@@ -11,9 +9,8 @@ import {
   account,
   session,
   user
-} from "db";
-import { config } from "config";
-import { AppError } from "validator";
+} from "@app/db"
+import { config } from "@app/config"
 
 export const auth = betterAuth({
   database: drizzleAdapter( db , {
@@ -59,45 +56,7 @@ export const auth = betterAuth({
   },
   plugins:[
     admin({ 
-      defaultRole: "user" 
+      defaultRole: "customer" 
     })
   ],
 }) 
-
-interface IUserBetterAuth {
-  id: string,
-  role?: string | null,
-  email: string
-}
-
-export const authHandler = toNodeHandler(auth);
-
-export const authentication = async ( 
-  req: Request,
-  plugins:  (( user: IUserBetterAuth ) => Promise<void> | void)[] = []
-) => {
-    
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  })
-
-  if(!session || !session.user) {
-
-    throw new AppError( 
-      "unauthorized" , 
-      'Please sign in to access the resource. You are not authorized! To continue, please sign in first'
-    );
-
-  }
-
-  if( plugins.length > 0) {
-    for (const plugin of plugins ) {
-      await plugin(session.user);
-    }
-  }
-  
-  return {
-    user: session.user
-  };
-
-}

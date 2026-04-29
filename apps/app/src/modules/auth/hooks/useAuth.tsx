@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 /* LIBRARIES */
-import { authClient } from "auth/client"
+import { authClient } from "@app/shared/lib/better-auth/client"
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "react-hot-toast";
 

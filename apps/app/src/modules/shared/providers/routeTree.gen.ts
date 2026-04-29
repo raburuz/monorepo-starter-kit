@@ -8,8 +8,6 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 import { Route as rootRouteImport } from './../../../routes/__root'
 import { Route as ProtectedRouteImport } from './../../../routes/_protected'
 import { Route as ProtectedIndexRouteImport } from './../../../routes/_protected/index'
@@ -17,13 +15,6 @@ import { Route as AuthAuthRouteImport } from './../../../routes/auth/_auth'
 import { Route as AuthAuthSignupRouteImport } from './../../../routes/auth/_auth/signup'
 import { Route as AuthAuthLoginRouteImport } from './../../../routes/auth/_auth/login'
 
-const AuthRouteImport = createFileRoute('/auth')()
-
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProtectedRoute = ProtectedRouteImport.update({
   id: '/_protected',
   getParentRoute: () => rootRouteImport,
@@ -34,8 +25,9 @@ const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
   getParentRoute: () => ProtectedRoute,
 } as any)
 const AuthAuthRoute = AuthAuthRouteImport.update({
-  id: '/_auth',
-  getParentRoute: () => AuthRoute,
+  id: '/auth/_auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthAuthSignupRoute = AuthAuthSignupRouteImport.update({
   id: '/signup',
@@ -49,8 +41,8 @@ const AuthAuthLoginRoute = AuthAuthLoginRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/auth': typeof AuthAuthRouteWithChildren
   '/': typeof ProtectedIndexRoute
+  '/auth': typeof AuthAuthRouteWithChildren
   '/auth/login': typeof AuthAuthLoginRoute
   '/auth/signup': typeof AuthAuthSignupRoute
 }
@@ -63,7 +55,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_protected': typeof ProtectedRouteWithChildren
-  '/auth': typeof AuthRouteWithChildren
   '/auth/_auth': typeof AuthAuthRouteWithChildren
   '/_protected/': typeof ProtectedIndexRoute
   '/auth/_auth/login': typeof AuthAuthLoginRoute
@@ -71,13 +62,12 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/auth' | '/' | '/auth/login' | '/auth/signup'
+  fullPaths: '/' | '/auth' | '/auth/login' | '/auth/signup'
   fileRoutesByTo: FileRoutesByTo
   to: '/auth' | '/' | '/auth/login' | '/auth/signup'
   id:
     | '__root__'
     | '/_protected'
-    | '/auth'
     | '/auth/_auth'
     | '/_protected/'
     | '/auth/_auth/login'
@@ -86,22 +76,15 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   ProtectedRoute: typeof ProtectedRouteWithChildren
-  AuthRoute: typeof AuthRouteWithChildren
+  AuthAuthRoute: typeof AuthAuthRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_protected': {
       id: '/_protected'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof ProtectedRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -117,7 +100,7 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthAuthRouteImport
-      parentRoute: typeof AuthRoute
+      parentRoute: typeof rootRouteImport
     }
     '/auth/_auth/signup': {
       id: '/auth/_auth/signup'
@@ -162,19 +145,9 @@ const AuthAuthRouteWithChildren = AuthAuthRoute._addFileChildren(
   AuthAuthRouteChildren,
 )
 
-interface AuthRouteChildren {
-  AuthAuthRoute: typeof AuthAuthRouteWithChildren
-}
-
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthAuthRoute: AuthAuthRouteWithChildren,
-}
-
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   ProtectedRoute: ProtectedRouteWithChildren,
-  AuthRoute: AuthRouteWithChildren,
+  AuthAuthRoute: AuthAuthRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

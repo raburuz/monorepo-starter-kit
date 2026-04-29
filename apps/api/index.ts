@@ -1,3 +1,6 @@
-import server from 'src/server';
+import { HonoServerInstance } from "@app/server";
 
-server;
+HonoServerInstance({
+    port: 8080,
+    routes: [],
+})

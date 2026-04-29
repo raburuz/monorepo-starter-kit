@@ -1,0 +1,13 @@
+{
+  "name": "@app/server",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "@hono/node-server": "catalog:",
+    "@app/shared": "workspace:*",
+    "@app/config": "workspace:*",
+    "@app/db": "workspace:*",
+    "hono": "catalog:",
+    "stripe": "^18.3.0"
+  }
+}

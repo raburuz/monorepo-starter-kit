@@ -3,19 +3,29 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.33.2",
   "scripts": {
-    "dev:app": "pnpm turbo --filter app dev",
-    "dev:api": "pnpm turbo --filter api dev",
-    "dev": "pnpm turbo dev",
-    "better-auth:generate": "pnpm dlx @better-auth/cli@latest generate --config packages/auth/server.ts --output packages/db/src/schemas/auth.ts",
-    "better-auth:migrate": "pnpm dlx @better-auth/cli@latest migrate --config packages/auth/server.ts --output packages/db/src/schemas/auth.ts",
     "build": "pnpm turbo build",
     "build:app": "pnpm turbo --filter app build",
-    "build:api": "pnpm turbo --filter api build"
+    "build:api": "pnpm turbo --filter api build",
+    "prod:drizzle:migrate:script": "dotenv pnpm dlx tsx modules/db/scripts/migrate.ts",
+    "dev": "dotenv -e .env -- pnpm turbo dev",
+    "dev:app": "pnpm turbo --filter app dev",
+    "dev:api": "pnpm turbo --filter api dev",
+    "dev:email": "email dev",
+    "dev:drizzle:studio": "drizzle-kit studio --config packages/db/drizzle.config.ts",
+    "dev:drizzle:check": "drizzle-kit check --config packages/db/drizzle.config.ts",
+    "dev:drizzle:generate": "drizzle-kit generate --config packages/db/drizzle.config.ts",
+    "dev:drizzle:push": "drizzle-kit push --config packages/db/drizzle.config.ts",
+    "dev:drizzle:migration:custom": "drizzle-kit generate --custom --config packages/db/drizzle.config.ts --name",
+    "dev:better-auth:schema:generate": "pnpm dlx @better-auth/cli@latest generate --config packages/auth/server.ts --output packages/db/src/schemas/auth.ts",
+    "dev:better-auth:schema:migrate": "pnpm dlx @better-auth/cli@latest migrate --config packages/auth/server.ts"
   },
   "devDependencies": {
-    "@types/node": "^24.0.13",
-    "turbo": "^2.5.4"
+    "@types/node": "^24.12.2",
+    "turbo": "^2.9.6"
+  },
+  "dependencies": {
+    "dotenv-cli": "^8.0.0"
   }
 }
