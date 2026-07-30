@@ -1,5 +1,5 @@
 /* APP */
-import { config } from 'config'
+import { config } from '@app/config'
 
 export const Branding = () => {
   return (

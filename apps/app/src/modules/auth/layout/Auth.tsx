@@ -7,7 +7,7 @@ import { Outlet } from "@tanstack/react-router"
 
 /* APP */
 import { useKillAppData } from "@/shared/hooks/useKillAppData"
-import { config } from "config"
+import { config } from "@app/config"
 
 /* COMPONENT */
 export const AuthLayout = () => {

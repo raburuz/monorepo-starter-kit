@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './../../../routes/__root'
 import { Route as ProtectedRouteImport } from './../../../routes/_protected'
 import { Route as ProtectedIndexRouteImport } from './../../../routes/_protected/index'
 import { Route as AuthAuthRouteImport } from './../../../routes/auth/_auth'
-import { Route as AuthAuthSignupRouteImport } from './../../../routes/auth/_auth/signup'
 import { Route as AuthAuthLoginRouteImport } from './../../../routes/auth/_auth/login'
+import { Route as AuthAuthSignupRouteImport } from './../../../routes/auth/_auth/signup'
 
 const ProtectedRoute = ProtectedRouteImport.update({
   id: '/_protected',
@@ -29,14 +29,14 @@ const AuthAuthRoute = AuthAuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthAuthSignupRoute = AuthAuthSignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => AuthAuthRoute,
-} as any)
 const AuthAuthLoginRoute = AuthAuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => AuthAuthRoute,
+} as any)
+const AuthAuthSignupRoute = AuthAuthSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
   getParentRoute: () => AuthAuthRoute,
 } as any)
 
@@ -102,18 +102,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/_auth/signup': {
-      id: '/auth/_auth/signup'
-      path: '/signup'
-      fullPath: '/auth/signup'
-      preLoaderRoute: typeof AuthAuthSignupRouteImport
-      parentRoute: typeof AuthAuthRoute
-    }
     '/auth/_auth/login': {
       id: '/auth/_auth/login'
       path: '/login'
       fullPath: '/auth/login'
       preLoaderRoute: typeof AuthAuthLoginRouteImport
+      parentRoute: typeof AuthAuthRoute
+    }
+    '/auth/_auth/signup': {
+      id: '/auth/_auth/signup'
+      path: '/signup'
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof AuthAuthSignupRouteImport
       parentRoute: typeof AuthAuthRoute
     }
   }

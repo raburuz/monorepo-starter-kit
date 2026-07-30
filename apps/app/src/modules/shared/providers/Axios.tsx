@@ -6,7 +6,7 @@ import AxiosAPI from "axios";
 import toast from "react-hot-toast";
 
 /* APP */
-import { config } from "config";
+import { config } from "@app/config";
 
 
 const axios = AxiosAPI.create({
